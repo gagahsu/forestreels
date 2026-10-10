@@ -1,0 +1,8 @@
+node_modules/
+out/
+build/
+public/ep*/
+.env
+__pycache__/
+public/bed/
+public/reels_*/

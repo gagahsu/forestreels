@@ -1,0 +1,26 @@
+{
+  "name": "forestreels",
+  "version": "0.1.0",
+  "private": true,
+  "description": "為什麼森林 podcast 精華 Reels（1080×1920）產生器",
+  "type": "module",
+  "scripts": {
+    "render": "node render.mjs",
+    "studio": "remotion studio src/index.ts"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.530",
+    "@remotion/cli": "^4.0.530",
+    "@remotion/renderer": "^4.0.530",
+    "@types/react": "^19.3.0",
+    "gsap": "^3.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.530",
+    "roughjs": "^4.6.6",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
+  }
+}
