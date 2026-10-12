@@ -1,6 +1,7 @@
 // 用法：node scripts/make-props.mjs data/clips/ep01_moon.json
 // 讀 podcast 的 build/<集名>.timeline.json，照選段設定挑出台詞，
-// 把整集 mp3 複製到 public/<集名>/、環境音轉成 m4a 放到 public/bed/，寫出 build/<集名>/props.json。
+// 把整集 mp3 複製到 public/<集名>/、環境音轉成 m4a 放到 public/bed/，寫出 build/<集名>/props.json
+// 和 Reel 貼文文案 build/<集名>/caption.txt。
 // 有 narration／hook／outro 時，再從 Reel 旁白（podcast 的 episodes/<narration>.md）挑出開場提問和片尾導流，
 // 音檔複製到 public/<narration>/narration.mp3。
 // 不呼叫任何 API。podcast 位置預設 ../podcast，可用 PODCAST_DIR 改。
@@ -86,6 +87,20 @@ const props = {
 const outPath = path.join('build', ep, 'props.json');
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, JSON.stringify(props, null, 1));
+
+// Reel 貼文文案（寫給家長看）：固定格式，只換問題、集數和 emoji
+const caption = `孩子問「${spec.question}」你會怎麼回答？${spec.emoji ?? ''}
+
+給 3–6 歲孩子的睡前故事 podcast，每集回答一個孩子的「為什麼」
+完整集數 🔍 為什麼森林 EP${spec.no} ${spec.question}｜兒童睡前故事
+🎧 收聽連結在主頁
+
+故事由人與 AI 共同創作，聲音由 AI 生成。
+
+#睡前故事 #為什麼森林
+`;
+fs.writeFileSync(path.join('build', ep, 'caption.txt'), caption);
+
 const secs = (ls) => ls.reduce((s, l) => s + l.end - l.start, 0);
 const extra = [hook, outro].filter(Boolean);
-console.log(`角色 ${picked.length} 句、說話 ${secs(picked).toFixed(1)} 秒；旁白 ${extra.length} 句、${secs(extra).toFixed(1)} 秒 → ${outPath}`);
+console.log(`角色 ${picked.length} 句、說話 ${secs(picked).toFixed(1)} 秒；旁白 ${extra.length} 句、${secs(extra).toFixed(1)} 秒 → ${outPath}（貼文文案在同一個資料夾的 caption.txt）`);

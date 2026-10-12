@@ -47,6 +47,7 @@ argument-hint: "<集名，例如 ep02_fish；可給多個>"
   "no": <集數>,
   "title": "為什麼森林｜第 N 集",
   "question": "<本集問題，含問號>",
+  "emoji": "<貼文第一行結尾的 emoji，配合本集主題，例如 🌙、🐟>",
   "narration": "reels_s1",
   "hook": "<本集問題的片段，例如：為什麼月亮會跟著我走>",
   "outro": "完整的睡前故事",
@@ -60,7 +61,7 @@ argument-hint: "<集名，例如 ep02_fish；可給多個>"
 - 片段要夠長、在整集裡唯一；`make-props` 對到 0 句或不只一句會停下來，那就改片段，**不要猜**。
 - `bed`：用這集選段那個場景的環境音，檔名從 `../podcast/generate_episode.py` 的 `SOUNDS` 查（例如 `夜晚蟲鳴` → `night_crickets.wav`，`河水` → `river_flowing.wav`）。
 
-然後跑 `node scripts/make-props.mjs data/clips/<集名>.json`，它會印出角色句數和說話秒數。
+然後跑 `node scripts/make-props.mjs data/clips/<集名>.json`，它會印出角色句數和說話秒數，並寫出 Reel 貼文文案 `build/<集名>/caption.txt`（固定格式，只換問題、集數和 `emoji`）。
 
 ## 第四步：停下來給使用者確認
 
@@ -85,6 +86,7 @@ argument-hint: "<集名，例如 ep02_fish；可給多個>"
    - 每個剪接點的大概秒數（旁白 → 角色、拿掉句子的地方），聽得出來嗎
    - 環境音音量（`bedVolume`）
    - 有聲音標記（`<chuckle>` 等）的句子
+4. 附上 `build/<集名>/caption.txt` 的貼文文案全文，讓使用者直接複製。
 
 ## 收尾
 

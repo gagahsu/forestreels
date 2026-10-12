@@ -23,6 +23,7 @@
   - 把整集 mp3 複製到 `public/<集名>/episode.mp3`，Reel 旁白複製到 `public/<narration>/narration.mp3`
   - 把環境音轉成 `public/bed/*.m4a`
   - 寫出 `build/<集名>/props.json`
+  - 寫出 Reel 貼文文案 `build/<集名>/caption.txt`（給家長看的固定格式，只換 `question`、`no`，和選段設定裡的 `emoji`；改格式就改 `make-props.mjs` 裡的樣板）
 
 ## 做新一集的 Reel
 
