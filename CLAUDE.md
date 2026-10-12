@@ -40,6 +40,7 @@ node render.mjs data/sample_ep01.json out/preview.mp4          # 無聲預覽（
 node render.mjs data/sample_ep01.json out/x.png --still=200    # 單一畫格，改畫面時先用它看
 node render.mjs <props.json> out/x.mp4 --frames=0-90           # 只輸出一段
 npx remotion studio src/index.ts                               # 互動預覽
+node scripts/render-intro.mjs                                  # IG 自我介紹輪播（src/IntroCards.tsx）→ out/intro/01–06.png
 ```
 
 `REMOTION_CHROME` 環境變數可以指定 Chrome 執行檔。
