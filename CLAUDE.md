@@ -29,6 +29,13 @@
 
 用專案 skill `/new-reel <集名>`（`.claude/skills/new-reel/SKILL.md`）：補時間軸 → 選段 → 停下來等確認 → 輸出。改了流程要同步更新 skill。
 
+## 英文版 Reel 與每週貼文
+
+- 英文版 podcast（Why Forest，podcast 的 `/en-episode`）的集名是 `epNN_xxx_en`。英文 Reel 一樣用 `/new-reel`，選段設定寫 `"lang": "en"`、`"narration": "reels_s1_en"`：畫面文字（`theme.ts` 的 `TEXT.en`）、角色名（`CHARACTERS` 的 `en`：Lili、Mianmian、Grandpa Gugu）、字幕切法（`chunkEn`，照單字切）、貼文文案都換成英文。英文 Reel 跟中文 Reel 發在同一個帳號，內容全英文。
+- 貼文裡的 podcast 標題格式（使用者定的）：中文 `[CHT] 為什麼森林｜第 N 集：<問題>`，英文 `[EN] Why Forest｜Episode N: <問題>`。改格式要跟 podcast 的 skill 一起改。
+- 發布排程：週一、四中文 podcast＋Reel；週二、五英文 podcast＋Reel；週三中文著色畫（兩集）；週六英文單字卡（兩集）。使用者自己發文，Claude 只產出檔案和文案。週二、五的英文 Reel 和貼文全英文；週三著色畫、週六單字卡的貼文都用中文說明。
+- 週三、週六的圖文貼文用專案 skill `/weekly-posts`（`.claude/skills/weekly-posts/SKILL.md`）：資料在 `data/posts/<貼文名>.json`，版型在 `src/PostCards.tsx`（`coloring`、`vocab`），`node scripts/render-post.mjs data/posts/<貼文名>.json` 輸出 `out/posts/<貼文名>/01.png…` 和 `caption.txt`。著色畫線稿是使用者用 AI 生的圖（Claude 寫提示詞），放 `public/coloring/<集名>.png`（不進版控）；單字表來自英文腳本的製作備註。
+
 ## 常用指令
 
 不需要建置，沒有測試。需要 Node 20 以上。
@@ -42,6 +49,7 @@ node render.mjs data/sample_ep01.json out/x.png --still=200    # 單一畫格，
 node render.mjs <props.json> out/x.mp4 --frames=0-90           # 只輸出一段
 npx remotion studio src/index.ts                               # 互動預覽
 node scripts/render-intro.mjs                                  # IG 自我介紹輪播（src/IntroCards.tsx）→ out/intro/01–06.png
+node scripts/render-post.mjs data/posts/sample_vocab.json      # 每週圖文貼文（src/PostCards.tsx）→ out/posts/<名稱>/
 ```
 
 `REMOTION_CHROME` 環境變數可以指定 Chrome 執行檔。
@@ -59,7 +67,8 @@ node scripts/render-intro.mjs                                  # IG 自我介紹
   - 台詞依序排：每句在上一句結束後，再加 min(原本的停頓, `maxGap`) 才開始；換音檔（旁白 ↔ 正片）時固定停 `SWITCH_GAP`。
 - 聲音：每句一個 `<Audio>`，用 `trimBefore`／`trimAfter` 從整集 mp3 剪出 `[start-PAD, end+PAD]`，前後各淡入淡出 3 格。句子之間的空白由 `bed` 環境音蓋住。mp3 本身已經混了 podcast 的背景音，所以 `bed` 音量要低（預設 0.15，還沒經使用者試聽確認）。
 - 字幕：`clean()` 去掉 Gemini 聲音標記（`<chuckle>` 等）。每句一個 `Sequence`，停頓時字幕留在畫面上，直到下一句開始。`Captions` 在句子裡依字數平均分配時間，切成短句輪流顯示。
-- `src/theme.ts`：配色、品牌字、`CHARACTERS`（角色 → 顏色、頭像）。角色名稱要跟 podcast 腳本的 `@角色` 完全一樣。
+- `src/theme.ts`：配色、品牌字、`CHARACTERS`（角色 → 顏色、頭像、英文名）。角色名稱要跟 podcast 腳本的 `@角色` 完全一樣（英文版腳本也用中文角色名）。`TEXT`／`textOf(lang)`：Reel 上依語言切換的文字（節目名、集數、AI 標示、片尾）。
+- props 的 `lang: 'en'`：英文版，`make-props.mjs` 依選段設定的 `"lang"` 寫入。
 - 頭像：栗栗、棉棉、咕咕爺爺用 `public/characters/` 的圖（從根目錄 `charaters.png` 用 ffmpeg 裁出大頭照），片尾用 `outro.png`（使用者提供的三角色夜景合照，原檔是根目錄 `片尾.png`，縮成 1080）。旁白沒有圖，還是 emoji（Linux 可能沒有彩色 emoji 字型，只在 Windows 算繪）。來源記在 `public/characters/SOURCES.md`（使用者用 AI 生成）。
 
 ## 不要做的事

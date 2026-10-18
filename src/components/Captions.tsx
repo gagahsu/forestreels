@@ -31,6 +31,24 @@ export function chunk(narr: string, max = 15): string[] {
   return out;
 }
 
+/** 英文：照標點分句，再把單字湊成不超過 max 個字母的短句（不會切斷單字） */
+export function chunkEn(narr: string, max = 26): string[] {
+  const parts = narr.replace(/["“”]/g, '').split(/(?<=[,.!?;:])\s+/).map((s) => s.trim()).filter(Boolean);
+  const out: string[] = [];
+  for (const p of parts) {
+    let cur = '';
+    for (const w of p.split(/\s+/)) {
+      if (cur && (cur + ' ' + w).length > max) { out.push(cur); cur = w; } else cur = cur ? cur + ' ' + w : w;
+    }
+    if (cur) out.push(cur);
+  }
+  // 只剩一個短字的尾巴（例如 "too."）併回前一段
+  for (let i = out.length - 1; i > 0; i--) {
+    if (out[i].length <= 6 && (out[i - 1] + ' ' + out[i]).length <= max + 8) { out[i - 1] += ' ' + out[i]; out.splice(i, 1); }
+  }
+  return out;
+}
+
 const Hi: React.FC<{ text: string; hl: string[] }> = ({ text, hl }) => {
   const keys = hl.filter(Boolean).sort((a, b) => b.length - a.length);
   if (!keys.length) return <>{text}</>;
@@ -38,9 +56,9 @@ const Hi: React.FC<{ text: string; hl: string[] }> = ({ text, hl }) => {
   return <>{text.split(re).map((s, i) => keys.includes(s) ? <span key={i} style={{ color: T.yellow }}>{s}</span> : <span key={i}>{s}</span>)}</>;
 };
 
-export const Captions: React.FC<{ narration: string; highlights: string[]; frames: number; top?: number }> = ({ narration, highlights, frames, top = 1420 }) => {
+export const Captions: React.FC<{ narration: string; highlights: string[]; frames: number; top?: number; lang?: 'zh' | 'en' }> = ({ narration, highlights, frames, top = 1420, lang }) => {
   const f = useCurrentFrame();
-  const cs = chunk(narration);
+  const cs = lang === 'en' ? chunkEn(narration) : chunk(narration);
   const total = cs.reduce((a, c) => a + c.length, 0);
   let acc = 0, idx = 0, start = 0;
   for (let i = 0; i < cs.length; i++) {
@@ -50,7 +68,7 @@ export const Captions: React.FC<{ narration: string; highlights: string[]; frame
   }
   const pop = tw(f, start, 5, 'back.out(3)', 0.88, 1);
   return (
-    <div style={{ position: 'absolute', top, left: 40, right: 40, textAlign: 'center', fontFamily: T.font, fontSize: 64, fontWeight: 900, color: '#fff', letterSpacing: 1,
+    <div style={{ position: 'absolute', top, left: 40, right: 40, textAlign: 'center', fontFamily: T.font, fontSize: lang === 'en' ? 60 : 64, fontWeight: 900, color: '#fff', letterSpacing: lang === 'en' ? 0 : 1,
       WebkitTextStroke: '10px #1b1b1b', paintOrder: 'stroke fill', textShadow: '0 4px 10px rgba(0,0,0,.35)', transform: `scale(${pop})` }}>
       <Hi text={cs[idx]} hl={highlights} />
     </div>

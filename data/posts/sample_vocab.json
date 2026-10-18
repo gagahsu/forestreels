@@ -1,0 +1,31 @@
+{
+  "type": "vocab",
+  "episodes": [
+    {
+      "no": 1,
+      "question": "Why does the moon follow me?",
+      "words": [
+        { "word": "moon", "zh": "月亮", "example": "Look, the moon is following us!" },
+        { "word": "follow", "zh": "跟著", "example": "Why does the moon follow me?" },
+        { "word": "far away", "zh": "很遠", "example": "The moon is far, far away." },
+        { "word": "close", "zh": "很近", "example": "The little flower is close to us." },
+        { "word": "behind", "zh": "在後面", "example": "The flower is behind us now." },
+        { "word": "mountain", "zh": "山", "example": "There is a mountain far away." },
+        { "word": "imagine", "zh": "想像", "example": "Imagine you are walking in the forest." },
+        { "word": "slowly", "zh": "慢慢地", "example": "Far things move slowly." }
+      ]
+    },
+    {
+      "no": 2,
+      "question": "Do fish sleep?",
+      "words": [
+        { "word": "fish", "zh": "魚", "example": "Do fish sleep?" },
+        { "word": "river", "zh": "河", "example": "The river is quiet tonight." },
+        { "word": "eyes", "zh": "眼睛", "example": "Fish can't close their eyes." },
+        { "word": "rest", "zh": "休息", "example": "The little fish is resting." },
+        { "word": "quiet", "zh": "安靜的", "example": "Let's be very quiet." }
+      ]
+    }
+  ],
+  "caption": "（範例資料：格式說明用，不是要發的貼文）"
+}

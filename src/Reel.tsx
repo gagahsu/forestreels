@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Img, Sequence, random, staticFile, useCurrentFrame } from 'remotion';
-import { T, charOf } from './theme';
+import { T, Lang, charOf, nameOf, textOf } from './theme';
 import { tw } from './anim';
 import { Captions } from './components/Captions';
 import { RoughMark } from './components/Rough';
@@ -10,6 +10,7 @@ import { RoughMark } from './components/Rough';
  *  role：hook = 開場的旁白提問，outro = 片尾的旁白導流，各自有專用畫面。 */
 export type Line = { speaker: string; text: string; start?: number; end?: number; audio?: string; role?: 'hook' | 'outro' };
 export type StoryProps = {
+  lang?: Lang;       // 'en' = 英文版（畫面文字、角色名、字幕切法）；沒寫就是中文
   episode: { no: number; title: string; question: string };
   audio?: string;    // public/ 相對路徑：整集 mp3
   maxGap?: number;   // 秒：句間停頓最長多久（podcast 的停頓 2–3 秒，Reel 裡太長）
@@ -36,7 +37,7 @@ export function timeline(p: StoryProps) {
   const timed = p.lines.every((l) => l.start != null && l.end != null);
   let pos = intro;
   const lines = p.lines.map((l, i) => {
-    const dur = timed ? l.end! - l.start! : Math.max(1, clean(l.text).length / T.charsPerSec);
+    const dur = timed ? l.end! - l.start! : Math.max(1, clean(l.text).length / textOf(p.lang).charsPerSec);
     const next = p.lines[i + 1];
     const gap = !next ? 0
       : next.audio !== l.audio || l.role || next.role ? Math.max(SWITCH_GAP, maxGap)
@@ -77,17 +78,17 @@ const Sky: React.FC = () => {
   );
 };
 
-const Header: React.FC<{ ep: StoryProps['episode'] }> = ({ ep }) => (
+const Header: React.FC<{ ep: StoryProps['episode']; lang?: Lang }> = ({ ep, lang }) => (
   <AbsoluteFill style={{ fontFamily: T.font, pointerEvents: 'none' }}>
-    <div style={{ position: 'absolute', top: 70, left: 60, color: T.cream, fontSize: 40, fontWeight: 900, letterSpacing: 2 }}>{T.brand}｜第 {ep.no} 集</div>
+    <div style={{ position: 'absolute', top: 70, left: 60, color: T.cream, fontSize: 40, fontWeight: 900, letterSpacing: 2 }}>{textOf(lang).brand}｜{textOf(lang).ep(ep.no)}</div>
     {/* AI 標示固定顯示：只剪中段時聽不到 podcast 開場的 AI 揭露 */}
-    <div style={{ position: 'absolute', top: 66, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{T.aiLabel}</div>
+    <div style={{ position: 'absolute', top: 66, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{textOf(lang).aiLabel}</div>
     <div style={{ position: 'absolute', top: 160, left: 60, right: 60, color: T.yellow, fontSize: 58, fontWeight: 900, lineHeight: 1.3 }}>{ep.question}</div>
   </AbsoluteFill>
 );
 
 /** 說話者頭像（有角色圖用圖，沒有就用 emoji） */
-const Speaker: React.FC<{ speaker: string }> = ({ speaker }) => {
+const Speaker: React.FC<{ speaker: string; lang?: Lang }> = ({ speaker, lang }) => {
   const f = useCurrentFrame();
   const c = charOf(speaker);
   const s = tw(f, 0, 12, 'back.out(2)', 0.7, 1);
@@ -100,24 +101,24 @@ const Speaker: React.FC<{ speaker: string }> = ({ speaker }) => {
         </div>
         <RoughMark w={420} h={420} color={T.cream} sw={6} seed={speaker.length} />
       </div>
-      <div style={{ marginTop: 20, color: c.color, fontSize: 52, fontWeight: 900, letterSpacing: 4 }}>{speaker}</div>
+      <div style={{ marginTop: 20, color: c.color, fontSize: 52, fontWeight: 900, letterSpacing: lang === 'en' ? 1 : 4 }}>{nameOf(speaker, lang)}</div>
     </AbsoluteFill>
   );
 };
 
 /** 開場：旁白提問。問題放大（「孩子問你」交給字幕），字幕在下面跟著旁白念 */
-const HookCard: React.FC<{ ep: StoryProps['episode'] }> = ({ ep }) => {
+const HookCard: React.FC<{ ep: StoryProps['episode']; lang?: Lang }> = ({ ep, lang }) => {
   const f = useCurrentFrame();
   return (
     <AbsoluteFill style={{ fontFamily: T.font, textAlign: 'center', alignItems: 'center' }}>
-      <div style={{ position: 'absolute', top: 66, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{T.aiLabel}</div>
+      <div style={{ position: 'absolute', top: 66, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{textOf(lang).aiLabel}</div>
       <div style={{ margin: '620px 60px 0', color: T.yellow, fontSize: 84, fontWeight: 900, lineHeight: 1.3, opacity: tw(f, 4, 16), transform: `scale(${tw(f, 4, 18, 'back.out(1.6)', 0.85, 1)})` }}>{ep.question}</div>
     </AbsoluteFill>
   );
 };
 
 /** 片尾：旁白導流。三個角色的夜景合照（上下邊緣淡進夜空、慢慢推近）＋節目名 */
-const OutroCard: React.FC = () => {
+const OutroCard: React.FC<{ lang?: Lang }> = ({ lang }) => {
   const f = useCurrentFrame();
   const fade = 'linear-gradient(transparent, #000 12%, #000 80%, transparent)';
   return (
@@ -125,9 +126,9 @@ const OutroCard: React.FC = () => {
       <div style={{ position: 'absolute', top: 200, width: T.W, height: T.W, overflow: 'hidden', WebkitMaskImage: fade, maskImage: fade }}>
         <Img src={staticFile('characters/outro.png')} style={{ width: '100%', display: 'block', transform: `scale(${1 + f * 0.0004})` }} />
       </div>
-      <div style={{ position: 'absolute', top: 1200, width: '100%', color: T.yellow, fontSize: 88, fontWeight: 900, letterSpacing: 6, textShadow: '0 4px 18px #000a' }}>{T.brand}</div>
-      <div style={{ position: 'absolute', top: 1320, width: '100%', color: T.cream, fontSize: 40, fontWeight: 700, textShadow: '0 2px 10px #000a' }}>睡前故事 podcast</div>
-      <div style={{ position: 'absolute', top: 66, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{T.aiLabel}</div>
+      <div style={{ position: 'absolute', top: 1200, width: '100%', color: T.yellow, fontSize: 88, fontWeight: 900, letterSpacing: 6, textShadow: '0 4px 18px #000a' }}>{textOf(lang).brand}</div>
+      <div style={{ position: 'absolute', top: 1320, width: '100%', color: T.cream, fontSize: 40, fontWeight: 700, textShadow: '0 2px 10px #000a' }}>{textOf(lang).tagline}</div>
+      <div style={{ position: 'absolute', top: 66, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{textOf(lang).aiLabel}</div>
     </AbsoluteFill>
   );
 };
@@ -161,7 +162,7 @@ export const StoryReel: React.FC<StoryProps> = (p) => {
       )}
       {!tl.hasHook && (
         <Sequence durationInFrames={tl.intro}>
-          <Card small={`${T.brand}｜第 ${p.episode.no} 集`} big={p.episode.question} />
+          <Card small={`${textOf(p.lang).brand}｜${textOf(p.lang).ep(p.episode.no)}`} big={p.episode.question} />
         </Sequence>
       )}
       {tl.lines.map((l, i) => {
@@ -170,19 +171,19 @@ export const StoryReel: React.FC<StoryProps> = (p) => {
         const until = l.role === 'outro' ? tl.total : i + 1 < tl.lines.length ? tl.lines[i + 1].from : tl.storyEnd;
         return (
           <Sequence key={i} from={from} durationInFrames={Math.max(1, until - from)}>
-            {l.role === 'hook' ? <HookCard ep={p.episode} /> : l.role === 'outro' ? <OutroCard /> : <Speaker speaker={l.speaker} />}
+            {l.role === 'hook' ? <HookCard ep={p.episode} lang={p.lang} /> : l.role === 'outro' ? <OutroCard lang={p.lang} /> : <Speaker speaker={l.speaker} lang={p.lang} />}
             <Sequence from={l.from - from}>
-              <Captions narration={l.text} highlights={[]} frames={l.frames} />
+              <Captions narration={l.text} highlights={[]} frames={l.frames} lang={p.lang} />
             </Sequence>
           </Sequence>
         );
       })}
       <Sequence from={tl.bodyFrom} durationInFrames={Math.max(1, tl.bodyTo - tl.bodyFrom)}>
-        <Header ep={p.episode} />
+        <Header ep={p.episode} lang={p.lang} />
       </Sequence>
       {!tl.hasOutro && (
         <Sequence from={tl.storyEnd}>
-          <Card small={p.episode.title} big={T.outro} />
+          <Card small={p.episode.title} big={textOf(p.lang).outro} />
         </Sequence>
       )}
     </AbsoluteFill>
