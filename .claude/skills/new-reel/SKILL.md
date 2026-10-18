@@ -86,7 +86,7 @@ argument-hint: "<集名，例如 ep02_fish 或英文版 ep02_fish_en；可給多
    node render.mjs build/<集名>/props.json out/<集名>_hook.png --still=90
    ```
    要確認：問題沒有斷成只剩一兩個字的第二行、字幕沒有怪符號、頭像是對的角色、「AI 配音」標示都在。
-   英文版：名字是 Lili／Mianmian／Grandpa Gugu、右上是「AI voice」、字幕沒有只剩一個單字的短句。
+   英文版：名字是 Lili／Mumu／Grandpa Gugu、右上是「AI voice」、字幕沒有只剩一個單字的短句。
    有出現新角色（`CHARACTERS` 裡沒有）時，頭像會是 💬，要告訴使用者，請他提供角色圖。
 2. 輸出：`node render.mjs build/<集名>/props.json out/<集名>.mp4`，用 ffprobe 量長度和檔案大小。
 3. 給使用者試聽清單：

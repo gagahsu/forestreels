@@ -50,6 +50,27 @@ const Coloring: React.FC<{ p: ColoringPost['pages'][number]; page: number; total
   </AbsoluteFill>
 );
 
+/** 著色畫的 A4 列印版（給家長下載或 ibon 列印）：白底、不放深色背景省墨，一集一頁。
+ *  尺寸用 CSS 的 A4（96 dpi 換算 794×1123），render-post.mjs 輸出成 PDF，線稿保持原圖解析度。 */
+export const PRINT_W = 794, PRINT_H = 1123;
+export type PrintProps = { p: ColoringPost['pages'][number] };
+
+export const ColoringPrint: React.FC<PrintProps> = ({ p }) => (
+  <AbsoluteFill style={{ background: '#fff', fontFamily: T.font, color: '#555', padding: '12mm 12mm 10mm', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: 15 }}>
+      <div><b style={{ color: '#333' }}>{T.brand}｜第 {p.no} 集</b>　{p.question}</div>
+      <div>名字：＿＿＿＿＿＿</div>
+    </div>
+    <div style={{ flex: 1, minHeight: 0, margin: '6mm 0' }}>
+      <Img src={staticFile(p.image)} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    </div>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#888' }}>
+      <div>著色畫由 AI 生成・歡迎自由列印、分享</div>
+      <div>🎧 podcast「{T.brand}」・IG @whyforest.tw</div>
+    </div>
+  </AbsoluteFill>
+);
+
 const Avatar: React.FC<{ name: string; size: number }> = ({ name, size }) => {
   const c = charOf(name);
   return (

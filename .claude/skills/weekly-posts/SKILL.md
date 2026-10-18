@@ -23,7 +23,7 @@ argument-hint: "<著色|單字> <集數> <集數>，例如：著色 1 2、單字
    - 構圖：`portrait 4:5`，主角大、背景簡單（幾棵樹、月亮、星星、草就好），**不要有任何文字或字母**
    - 角色（照 `charaters.png` 的設定，要畫到的才寫）：
      - Lili：`a small squirrel with a big curly fluffy tail, pointed ears with little tufts, big round eyes, smiling`
-     - Mianmian：`a small fluffy bunny with long upright ears, round body, big round eyes, sitting`
+     - Mumu（棉棉）：`a small fluffy bunny with long upright ears, round body, big round eyes, sitting`
      - Grandpa Gugu：`a big round owl wearing round glasses, ear tufts, kind face, standing on a branch`
    - 場景：照腳本寫具體的東西（大橡樹的樹洞、河邊、螢火蟲…）
    - 結尾：`Use the attached character sheet as reference for the characters' look.`
@@ -60,7 +60,10 @@ argument-hint: "<著色|單字> <集數> <集數>，例如：著色 1 2、單字
 EP N｜<問題>：<一句畫面說明>
 EP M｜<問題>：<一句畫面說明>
 
-存下來印出來，聽完故事一起塗吧。
+🖨️ A4 列印版 PDF 歡迎自由列印、分享：
+・家裡有印表機 → 主頁連結下載
+・到 7-11 ibon 列印 → 取件編號 XXXXXXXX（M/D 前有效）
+
 完整故事 🔍 [CHT] 為什麼森林
 🎧 收聽連結在主頁
 
@@ -68,7 +71,11 @@ EP M｜<問題>：<一句畫面說明>
 
 #著色畫 #睡前故事 #為什麼森林
 ```
+PDF 的下載連結放在 IG 主頁（使用者放 Google 雲端）。ibon 取件編號要等使用者上傳後才有（約 3 天過期），先留 `XXXXXXXX`、`M/D`，使用者給了再填；只放限時動態就刪掉 ibon 那行。
+
 然後 `node scripts/render-post.mjs data/posts/coloring_epNN_epMM.json`，用 Read 看輸出的每一張，再把文案全文貼給使用者。
+
+同一個指令也會輸出 **A4 列印版** `print/<集名>.pdf`（`src/PostCards.tsx` 的 `ColoringPrint`：白底省墨、頁首集數＋問題＋「名字：」、頁尾 AI 生成標示和 IG）。給家長下載自己印（使用者放 Google 雲端），或上傳 ibon 列印。IG 圖卡有深色外框，不要拿來印。要看版面就用 `npx remotion still src/index.ts ColoringPrint <暫存.png> --props=...` 轉成 PNG 再 Read。
 
 ## 單字卡（週六，英文）
 

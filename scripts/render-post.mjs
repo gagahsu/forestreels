@@ -1,5 +1,6 @@
 // 每週圖文貼文：輸出 out/posts/<貼文名>/01.png ~ NN.png（1080×1350）和 caption.txt
 // 用法：node scripts/render-post.mjs data/posts/<貼文名>.json
+// 著色畫另外輸出 A4 列印版 out/posts/<貼文名>/print/<集名>.pdf
 // 資料格式見 src/PostCards.tsx（coloring＝著色畫、vocab＝英文單字卡）。不呼叫任何 API。
 import { bundle } from '@remotion/bundler';
 import { renderStill, selectComposition } from '@remotion/renderer';
@@ -29,6 +30,17 @@ for (let page = 1; page <= pages; page++) {
   const output = path.join(outDir, `${String(page).padStart(2, '0')}.png`);
   await renderStill({ serveUrl, composition, inputProps, output, frame: 0, browserExecutable });
   console.log('→', output);
+}
+// 著色畫另外輸出 A4 列印版 PDF（一集一個檔，檔名照線稿，例如 print/ep01_moon.pdf）
+if (post.type === 'coloring') {
+  fs.mkdirSync(path.join(outDir, 'print'), { recursive: true });
+  for (const p of post.pages) {
+    const inputProps = { p };
+    const composition = await selectComposition({ serveUrl, id: 'ColoringPrint', inputProps, browserExecutable });
+    const output = path.join(outDir, 'print', `${path.parse(p.image).name}.pdf`);
+    await renderStill({ serveUrl, composition, inputProps, output, frame: 0, imageFormat: 'pdf', browserExecutable });
+    console.log('→', output);
+  }
 }
 if (post.caption) {
   fs.writeFileSync(path.join(outDir, 'caption.txt'), post.caption);

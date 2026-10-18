@@ -1,0 +1,18 @@
+{
+  "episode": "ep02_fish",
+  "no": 2,
+  "title": "為什麼森林｜第 2 集",
+  "question": "魚會睡覺嗎？",
+  "emoji": "🐟",
+  "narration": "reels_s1",
+  "hook": "魚會睡覺嗎",
+  "outro": "完整的睡前故事",
+  "ranges": [
+    ["咕咕爺爺，咕咕爺爺，魚會睡覺嗎"],
+    ["我們都來當一條小魚"],
+    ["你們的眼睛，有沒有閉起來", "牠其實，正在休息"]
+  ],
+  "maxGap": 0.6,
+  "bed": "river_flowing.wav",
+  "bedVolume": 0.15
+}

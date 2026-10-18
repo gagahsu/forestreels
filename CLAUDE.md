@@ -31,10 +31,10 @@
 
 ## 英文版 Reel 與每週貼文
 
-- 英文版 podcast（Why Forest，podcast 的 `/en-episode`）的集名是 `epNN_xxx_en`。英文 Reel 一樣用 `/new-reel`，選段設定寫 `"lang": "en"`、`"narration": "reels_s1_en"`：畫面文字（`theme.ts` 的 `TEXT.en`）、角色名（`CHARACTERS` 的 `en`：Lili、Mianmian、Grandpa Gugu）、字幕切法（`chunkEn`，照單字切）、貼文文案都換成英文。英文 Reel 跟中文 Reel 發在同一個帳號，內容全英文。
+- 英文版 podcast（Why Forest，podcast 的 `/en-episode`）的集名是 `epNN_xxx_en`。英文 Reel 一樣用 `/new-reel`，選段設定寫 `"lang": "en"`、`"narration": "reels_s1_en"`：畫面文字（`theme.ts` 的 `TEXT.en`）、角色名（`CHARACTERS` 的 `en`：Lili、Mumu、Grandpa Gugu）、字幕切法（`chunkEn`，照單字切）、貼文文案都換成英文。英文 Reel 跟中文 Reel 發在同一個帳號，內容全英文。
 - 貼文裡的 podcast 標題格式（使用者定的）：中文 `[CHT] 為什麼森林｜第 N 集：<問題>`，英文 `[EN] Why Forest｜Episode N: <問題>`。改格式要跟 podcast 的 skill 一起改。
 - 發布排程：週一、四中文 podcast＋Reel；週二、五英文 podcast＋Reel；週三中文著色畫（兩集）；週六英文單字卡（兩集）。使用者自己發文，Claude 只產出檔案和文案。週二、五的英文 Reel 和貼文全英文；週三著色畫、週六單字卡的貼文都用中文說明。
-- 週三、週六的圖文貼文用專案 skill `/weekly-posts`（`.claude/skills/weekly-posts/SKILL.md`）：資料在 `data/posts/<貼文名>.json`，版型在 `src/PostCards.tsx`（`coloring`、`vocab`），`node scripts/render-post.mjs data/posts/<貼文名>.json` 輸出 `out/posts/<貼文名>/01.png…` 和 `caption.txt`。著色畫線稿是使用者用 AI 生的圖（Claude 寫提示詞），放 `public/coloring/<集名>.png`（不進版控）；單字表來自英文腳本的製作備註。
+- 週三、週六的圖文貼文用專案 skill `/weekly-posts`（`.claude/skills/weekly-posts/SKILL.md`）：資料在 `data/posts/<貼文名>.json`，版型在 `src/PostCards.tsx`（`coloring`、`vocab`），`node scripts/render-post.mjs data/posts/<貼文名>.json` 輸出 `out/posts/<貼文名>/01.png…` 和 `caption.txt`；著色畫另外輸出 A4 列印版 `print/<集名>.pdf`（`ColoringPrint`，給家長下載或 ibon 列印）。著色畫線稿是使用者用 AI 生的圖（Claude 寫提示詞），放 `public/coloring/<集名>.png`（不進版控）；單字表來自英文腳本的製作備註。
 
 ## 常用指令
 

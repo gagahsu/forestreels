@@ -31,7 +31,7 @@ export const textOf = (lang?: Lang) => TEXT[lang ?? 'zh'];
 export const CHARACTERS: Record<string, { color: string; emoji: string; img?: string; en?: string }> = {
   旁白: { color: '#C9D6FF', emoji: '📖', en: 'Narrator' },
   栗栗: { color: '#F2A65A', emoji: '🐿️', img: 'characters/lili.png', en: 'Lili' },
-  棉棉: { color: '#F7C6D9', emoji: '🐰', img: 'characters/mianmian.png', en: 'Mianmian' },
+  棉棉: { color: '#F7C6D9', emoji: '🐰', img: 'characters/mianmian.png', en: 'Mumu' },
   咕咕爺爺: { color: '#B9A37E', emoji: '🦉', img: 'characters/gugu.png', en: 'Grandpa Gugu' },
 };
 export const charOf = (s: string): (typeof CHARACTERS)[string] => CHARACTERS[s] ?? { color: '#DDDDDD', emoji: '💬' };
