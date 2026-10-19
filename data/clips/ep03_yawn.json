@@ -1,0 +1,18 @@
+{
+  "episode": "ep03_yawn",
+  "no": 3,
+  "title": "為什麼森林｜第 3 集",
+  "question": "為什麼會打哈欠？",
+  "emoji": "🥱",
+  "narration": "reels_s1",
+  "hook": "為什麼會打哈欠",
+  "outro": "完整的睡前故事",
+  "ranges": [
+    ["咕咕爺爺，咕咕爺爺，我們為什麼會打哈欠呀", "這個問題真好"],
+    ["吸一口長長的氣"],
+    ["為什麼棉棉一打哈欠，我也想打呢", "越是親近的家人和好朋友"]
+  ],
+  "maxGap": 0.6,
+  "bed": "night_crickets.wav",
+  "bedVolume": 0.15
+}
