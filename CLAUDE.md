@@ -43,7 +43,8 @@
 ```powershell
 npm install
 node scripts/make-props.mjs data/clips/ep01_moon.json          # 選段 → build/ep01_moon/props.json（需要 ffmpeg；可用 $env:FFMPEG 指定）
-node render.mjs build/ep01_moon/props.json out/ep01_moon.mp4   # 正式輸出
+node render.mjs build/ep01_moon/props.json out/ep01_moon.mp4   # 正式輸出（同時輸出封面 out/ep01_moon_cover.png）
+node render.mjs build/ep01_moon/props.json out/ep01_moon.mp4 --cover-only   # 只重新輸出封面
 node render.mjs data/sample_ep01.json out/preview.mp4          # 無聲預覽（依字數估算時間）
 node render.mjs data/sample_ep01.json out/x.png --still=200    # 單一畫格，改畫面時先用它看
 node render.mjs <props.json> out/x.mp4 --frames=0-90           # 只輸出一段

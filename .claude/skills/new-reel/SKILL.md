@@ -1,6 +1,6 @@
 ---
 name: new-reel
-description: 把「為什麼森林」podcast 的某一集（中文或英文版 Why Forest）做成精華 Reel：補時間軸 → 選段 → 等使用者確認 → make-props → 檢查畫格 → 輸出 mp4＋貼文文案。使用者說「做 epNN 的 Reel」「做英文版 Reel」「/new-reel epNN_xxx」時使用；可以一次給好幾集。
+description: 把「為什麼森林」podcast 的某一集（中文或英文版 Why Forest）做成精華 Reel：補時間軸 → 選段 → 等使用者確認 → make-props → 檢查畫格 → 輸出 mp4＋封面圖＋貼文文案。使用者說「做 epNN 的 Reel」「做英文版 Reel」「/new-reel epNN_xxx」時使用；可以一次給好幾集。
 argument-hint: "<集名，例如 ep02_fish 或英文版 ep02_fish_en；可給多個>"
 ---
 
@@ -88,12 +88,12 @@ argument-hint: "<集名，例如 ep02_fish 或英文版 ep02_fish_en；可給多
    要確認：問題沒有斷成只剩一兩個字的第二行、字幕沒有怪符號、頭像是對的角色、「AI 配音」標示都在。
    英文版：名字是 Lili／Mumu／Grandpa Gugu、右上是「AI voice」、字幕沒有只剩一個單字的短句。
    有出現新角色（`CHARACTERS` 裡沒有）時，頭像會是 💬，要告訴使用者，請他提供角色圖。
-2. 輸出：`node render.mjs build/<集名>/props.json out/<集名>.mp4`，用 ffprobe 量長度和檔案大小。
+2. 輸出：`node render.mjs build/<集名>/props.json out/<集名>.mp4`，用 ffprobe 量長度和檔案大小。同時會輸出 Reel 封面 `out/<集名>_cover.png`（`ReelCover`：三個角色的合照＋節目名｜集數＋問題，1080×1920；IG 個人頁格狀只顯示中間 3:4，文字都在那個範圍裡）。要打開封面看：問題沒有斷成只剩一兩個字的一行、AI 標示在。只改封面時加 `--cover-only`，不用重新輸出影片。
 3. 給使用者試聽清單：
    - 每個剪接點的大概秒數（旁白 → 角色、拿掉句子的地方），聽得出來嗎
    - 環境音音量（`bedVolume`）
    - 有聲音標記（`<chuckle>` 等）的句子
-4. 附上 `build/<集名>/caption.txt` 的貼文文案全文，讓使用者直接複製。
+4. 附上 `build/<集名>/caption.txt` 的貼文文案全文，讓使用者直接複製；封面圖 `out/<集名>_cover.png` 在發 Reel 時上傳當封面。
 
 ## 收尾
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Composition } from 'remotion';
-import { StoryReel, StoryProps, timeline } from './Reel';
+import { StoryReel, StoryProps, timeline, ReelCover } from './Reel';
 import { IntroCard, IntroProps, INTRO_W, INTRO_H } from './IntroCards';
 import { T } from './theme';
 import { PostCard, PostProps, POST_W, POST_H, ColoringPrint, PrintProps, PRINT_W, PRINT_H } from './PostCards';
@@ -16,6 +16,13 @@ export const Root: React.FC = () => (
       durationInFrames={300}
       defaultProps={sample as StoryProps}
       calculateMetadata={({ props }) => ({ durationInFrames: timeline(props as StoryProps).total })}
+    />
+    <Composition
+      id="ReelCover"
+      component={ReelCover as any}
+      width={T.W} height={T.H} fps={T.FPS}
+      durationInFrames={1}
+      defaultProps={sample as StoryProps}
     />
     <Composition
       id="IntroCard"

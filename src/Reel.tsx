@@ -189,3 +189,24 @@ export const StoryReel: React.FC<StoryProps> = (p) => {
     </AbsoluteFill>
   );
 };
+
+/** Reel 封面（靜態圖，render.mjs 輸出 mp4 後一起輸出 out/<集名>_cover.png）。
+ *  IG 個人頁格狀只顯示中間 3:4（1080×1440，上下各裁 240），所以文字都放在 y 240–1680 之間。 */
+export const ReelCover: React.FC<StoryProps> = ({ episode, lang }) => {
+  const fade = 'linear-gradient(transparent, #000 10%, #000 70%, transparent)';
+  const t = textOf(lang);
+  return (
+    <AbsoluteFill style={{ background: `linear-gradient(${T.sky}, ${T.skyLow})`, fontFamily: T.font, textAlign: 'center', alignItems: 'center' }}>
+      {/* 只有星星：角色圖裡已經有月亮，再畫 Sky 的月亮會疊在一起 */}
+      {Array.from({ length: 30 }, (_, i) => (
+        <div key={i} style={{ position: 'absolute', left: random(`cx${i}`) * T.W, top: random(`cy${i}`) * 360, width: 6, height: 6, borderRadius: 3, background: '#fff', opacity: 0.3 + 0.5 * random(`co${i}`) }} />
+      ))}
+      <div style={{ position: 'absolute', top: 340, width: T.W, height: T.W, overflow: 'hidden', WebkitMaskImage: fade, maskImage: fade }}>
+        <Img src={staticFile('characters/outro.png')} style={{ width: '100%', display: 'block' }} />
+      </div>
+      <div style={{ position: 'absolute', top: 270, right: 50, background: T.cream, color: T.ink, fontSize: 28, fontWeight: 900, padding: '8px 18px', borderRadius: 12 }}>{t.aiLabel}</div>
+      <div style={{ position: 'absolute', top: 1210, width: '100%', color: T.cream, fontSize: 44, fontWeight: 900, letterSpacing: lang === 'en' ? 2 : 4, textShadow: '0 2px 12px #000c' }}>{t.brand}｜{t.ep(episode.no)}</div>
+      <div style={{ position: 'absolute', top: 1300, left: 60, right: 60, color: T.yellow, fontSize: lang === 'en' ? 84 : 82, fontWeight: 900, lineHeight: 1.25, textWrap: 'balance', textShadow: '0 6px 24px #000c' } as React.CSSProperties}>{episode.question}</div>
+    </AbsoluteFill>
+  );
+};
