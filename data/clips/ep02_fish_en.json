@@ -1,0 +1,19 @@
+{
+  "episode": "ep02_fish_en",
+  "no": 2,
+  "lang": "en",
+  "title": "Why Forest｜Episode 2",
+  "question": "Do fish sleep?",
+  "emoji": "🐟",
+  "narration": "reels_s1_en",
+  "hook": "Do fish sleep",
+  "outro": "Find the full bedtime story",
+  "ranges": [
+    ["Grandpa Gugu, Grandpa Gugu, do fish sleep"],
+    ["let's all pretend to be little fish"],
+    ["Now, are your eyes closed", "but it is really resting"]
+  ],
+  "maxGap": 0.6,
+  "bed": "river_flowing.wav",
+  "bedVolume": 0.15
+}
