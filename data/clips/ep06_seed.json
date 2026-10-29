@@ -1,0 +1,18 @@
+{
+  "episode": "ep06_seed",
+  "no": 6,
+  "title": "為什麼森林｜第 6 集",
+  "question": "為什麼種子會長大？",
+  "emoji": "🌱",
+  "narration": "reels_s1",
+  "hook": "為什麼種子會長大",
+  "outro": "完整的睡前故事",
+  "ranges": [
+    ["咕咕爺爺，咕咕爺爺，種子為什麼會長大呀"],
+    ["每一顆種子裡面"],
+    ["寶寶植物會先長出一條小根", "小芽一開始，吃的是種子裡的點心"]
+  ],
+  "maxGap": 0.6,
+  "bed": "night_crickets.wav",
+  "bedVolume": 0.15
+}
